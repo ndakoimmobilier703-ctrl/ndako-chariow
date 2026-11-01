@@ -1,6 +1,6 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
-const configuredSiteUrl = Deno.env.get('NDAKO_SITE_URL') || '';
+const configuredSiteUrl = Deno.env.get('NDAKO_SITE_URL') || 'https://ndakoimmobilier703-ctrl.github.io/ndako-chariow';
 let allowedOrigin = 'null';
 try { allowedOrigin = new URL(configuredSiteUrl).origin; } catch { /* validated in handler */ }
 const corsHeaders = {
@@ -34,13 +34,15 @@ Deno.serve(async (req) => {
     const supabaseUrl = Deno.env.get('SUPABASE_URL');
     const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
     const apiKey = Deno.env.get('CHARIOW_API_KEY');
-    const siteUrl = Deno.env.get('NDAKO_SITE_URL');
+    const siteUrl = Deno.env.get('NDAKO_SITE_URL') || configuredSiteUrl;
     if (!supabaseUrl || !serviceRoleKey || !apiKey || !siteUrl || allowedOrigin === 'null') {
       return json({ error: 'Configuration de paiement incomplète côté serveur.' }, 500);
     }
     let parsedSiteUrl: URL;
     try { parsedSiteUrl = new URL(siteUrl); } catch { return json({ error: 'URL publique Ndako invalide.' }, 500); }
     if (parsedSiteUrl.protocol !== 'https:') return json({ error: 'Le domaine Ndako doit utiliser HTTPS.' }, 500);
+
+    const siteBasePath = parsedSiteUrl.pathname.replace(/\/+$/, '');
 
     const contentLength = Number(req.headers.get('content-length') || 0);
     if (contentLength > 128_000) return json({ error: 'Demande trop volumineuse.' }, 413);
@@ -195,7 +197,7 @@ Deno.serve(async (req) => {
         last_name: lastName,
         phone: { number: phoneDigits, country_code: countryCode },
         payment_currency: 'XOF',
-        redirect_url: `${parsedSiteUrl.origin}/paiement/retour?reference=${encodeURIComponent(reference)}`,
+        redirect_url: `${parsedSiteUrl.origin}${siteBasePath}/paiement/retour?reference=${encodeURIComponent(reference)}`,
         ...(buyerIp ? { customer_ip: buyerIp } : {}),
         custom_metadata: {
           ndako_reference: reference,

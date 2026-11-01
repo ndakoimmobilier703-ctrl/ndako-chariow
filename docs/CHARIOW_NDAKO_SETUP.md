@@ -9,6 +9,8 @@
 - La fonction `chariow-pulse` vérifie la signature HMAC-SHA256 sur le corps brut, puis appelle une fonction SQL transactionnelle qui contrôle la référence, le produit, l'identifiant de vente, le montant et la devise. Elle traite chaque livraison une seule fois.
 - Une annonce payante devient visible uniquement après un Pulse `successful.sale` valide. Les événements `failed.sale` et `abandoned.sale` échouent la transaction et expirent le brouillon.
 - Le retour de paiement ne lit plus directement la table `transactions` : `get-chariow-payment-status` renvoie uniquement les champs publics nécessaires.
+- Sur GitHub Pages, conserver le chemin `/ndako-chariow` dans `NDAKO_SITE_URL` : le retour de paiement le reprend dans son URL. Le code utilise cette valeur comme URL publique par défaut si le secret est absent.
+
 - Le mode gratuit et les codes promotionnels passent par `create-free-listing`, qui revérifie le mode, le tarif et le code côté serveur. Les codes promotionnels ne peuvent être consommés qu'une seule fois par opération validée et leur compteur est incrémenté de manière atomique.
 - Les endpoints de publication appliquent une limite de 5 tentatives par adresse IP sur 15 minutes. L'adresse IP est hachée avant stockage.
 - Les anciennes transactions sont conservées. Les nouvelles transactions portent `provider = chariow` ou `provider = ndako_free`.
@@ -60,7 +62,7 @@ Définir ces secrets dans Supabase → Edge Functions → Secrets, ou avec la CL
 supabase secrets set \
   CHARIOW_API_KEY="sk_live_..." \
   CHARIOW_PULSE_SECRET="whsec_..." \
-  NDAKO_SITE_URL="https://votre-domaine-ndako.com" \
+  NDAKO_SITE_URL="https://ndakoimmobilier703-ctrl.github.io/ndako-chariow" \
   CHARIOW_PRODUCT_1_WEEK="prd_..." \
   CHARIOW_PRODUCT_2_WEEKS="prd_..." \
   CHARIOW_PRODUCT_1_MONTH="prd_..."

@@ -1,6 +1,6 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
-const siteUrl = Deno.env.get('NDAKO_SITE_URL') || '';
+const siteUrl = Deno.env.get('NDAKO_SITE_URL') || 'https://ndakoimmobilier703-ctrl.github.io/ndako-chariow';
 let allowedOrigin = 'null';
 try { allowedOrigin = new URL(siteUrl).origin; } catch { /* checked below */ }
 const headers = {
