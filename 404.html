@@ -1,0 +1,7 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><script>
+  const base = "/ndako-chariow";
+  const path = location.pathname.startsWith(base) ? location.pathname.slice(base.length) : location.pathname;
+  sessionStorage.setItem("spa-path", path + location.search + location.hash);
+  location.replace(base + "/");
+</script></head><body></body></html>

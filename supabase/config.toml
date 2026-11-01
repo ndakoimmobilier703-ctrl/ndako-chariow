@@ -1,0 +1,11 @@
+[functions.start-chariow-checkout]
+verify_jwt = false
+
+[functions.chariow-pulse]
+verify_jwt = false
+
+[functions.create-free-listing]
+verify_jwt = false
+
+[functions.get-chariow-payment-status]
+verify_jwt = false

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <script>
+      const spaPath = sessionStorage.getItem("spa-path");
+      if (spaPath) { sessionStorage.removeItem("spa-path"); history.replaceState(null, "", "/ndako-chariow" + spaPath); }
+    </script>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="https://miaoda-conversation-file.s3cdn.medo.dev/user-ezcyxap9ijgg/app-ezdypxs5wge9/20261010/file_0000000057d082438752714fcf2f37a8.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+    <!-- Security & Privacy Metadata -->
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <title>Ndako - Plateforme Immobilière Internationale de Location</title>
+    <!-- Google Fonts: Roboto (Regular 400, Medium 500, Bold 700) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="font-sans antialiased">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
