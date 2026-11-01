@@ -40,6 +40,7 @@ SET discount_type = CASE WHEN COALESCE(discount_percent, 100) >= 100 THEN 'free_
     expires_at = COALESCE(expires_at, end_date)
 WHERE starts_at IS NULL OR expires_at IS NULL OR max_users IS NULL;
 ALTER TABLE public.promo_codes
+  ALTER COLUMN end_date DROP NOT NULL,
   ALTER COLUMN starts_at SET DEFAULT now(),
   ALTER COLUMN expires_at SET DEFAULT (now() + interval '30 days');
 
